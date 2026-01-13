@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>공영주차장 지도</title>
+
+  <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KEY"></script>
+
+  <style>
+    #map { width: 100%; height: 400px; margin-top: 20px; }
+  </style>
+</head>
+
+<body>
+
+<h2>공영주차장 찾기</h2>
+
+지역 입력:
+<input type="text" id="region" placeholder="강남구">
+<button onclick="search()">검색</button>
+
+<div id="map"></div>
+
+<script>
+  // 지도 초기화
+  var map = new kakao.maps.Map(document.getElementById('map'), {
+    center: new kakao.maps.LatLng(37.5665, 126.9780),
+    level: 5
+  });
+
+  var markers = [];
+
+  // 검색 함수
+  function search() {
+    fetch('/parking/search?region=' + document.getElementById('region').value)
+            .then(res => res.json())
+            .then(data => {
+
+              // 기존 마커 제거
+              markers.forEach(m => m.setMap(null));
+              markers = [];
+
+              data.forEach(p => {
+                var pos = new kakao.maps.LatLng(p.lat, p.lng);
+                var marker = new kakao.maps.Marker({ position: pos });
+                marker.setMap(map);
+                markers.push(marker);
+
+                // 인포윈도우
+                var iw = new kakao.maps.InfoWindow({
+                  content: `<b>${p.name}</b><br>${p.address}`
+                });
+
+                kakao.maps.event.addListener(marker, 'click', function() {
+                  iw.open(map, marker);
+                });
+              });
+            });
+  }
+</script>
+
+</body>
+</html>
