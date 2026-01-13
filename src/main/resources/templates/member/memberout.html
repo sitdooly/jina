@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+</div>
+<head>
+  <style>
+    ul {
+        text-align:center;
+        margin-top: 20px;
+    }
+
+    ul li {
+        list-style-type: none;
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    .pagination{
+        margin : 0 auto;
+        width:100%;
+    }
+
+    div.pp{
+        color: blue;
+    }
+  </style>
+</head>
+<div layout:fragment="content">
+<body>
+
+<div class="container">
+  <table class="table">
+    <thead>
+    <tr>
+
+      <th>아이디</th>  <th>이름</th>     <th>전화번호</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="emp:${list}">
+
+      <td th:text="${emp.id}"></td>
+      <td th:text="${emp.name}"></td>
+      <td th:text="${emp.tel}"></td>
+
+
+    </tr>
+
+    </tbody>
+  </table>
+</div>
+<!--3.1 버젼-->
+<div class="pagination">
+  <ul>
+    <li th:each="page, stat : ${#numbers.sequence(0, totalPage - 1)}">
+
+  <span th:if="${nowpage == stat.index + 1}" >
+    <a th:href="@{/member_outgo(page=${stat.index})}"
+       th:text="${stat.index + 1}" style="color:red" ></a>
+  </span>
+
+      <span th:if="${nowpage != stat.index + 1}">
+    <a th:href="@{/member_outgo(page=${stat.index})}"
+       th:text="${stat.index + 1}"></a>
+  </span>
+
+    </li>
+
+  </ul>
+</div>
+
+<!-- 페이징
+<div style="text-align:center;margin-top:20px;">
+    <span th:each="i : ${#numbers.sequence(0, totalPage-1)}">
+        <a th:href="@{/out(page=${i})}"
+           th:text="${i+1}"
+           th:style="${i == nowPage} ? 'font-weight:bold;color:red' : ''">
+        </a>
+        &nbsp;
+    </span>
+</div>
+-->
+</body>
+</div>
+</html>

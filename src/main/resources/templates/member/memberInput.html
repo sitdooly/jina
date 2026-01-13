@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<div layout:fragment="content">
+  <div class="container">
+<body>
+<form th:action="memberInputSave" method="post" >
+
+  <div class="form-group">
+    <label for="name">이름</label>
+    <input type="text" class="form-control" id="name" name="name">
+  </div>
+
+  <div class="form-group">
+    <label for="tel">전화번호</label>
+    <input type="text" class="form-control" id="tel" name="tel">
+  </div>
+
+  <div class="form-group">
+    <label for="jumin">주민번호</label>
+    <input type="text" class="form-control" id="jumin" name="jumin">
+  </div>
+
+  <div class="form-group">
+    <label for="address">거주지</label>
+    <input type="text" class="form-control" id="address" name="address">
+  </div>
+
+
+  <button type="submit" class="btn btn-primary">저장</button>
+</form>
+</body>
+</div>
+</div>
+</html>
