@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>도시 간 거리 계산</title>
+    <style>
+        body { font-family: Arial; padding: 40px; }
+        input, button { padding: 10px; margin: 5px; }
+    </style>
+</head>
+<div layout:fragment="content">
+<body>
+
+<h2>도시 간 거리 계산</h2>
+
+출발 도시:
+<input type="text" id="startCity"><br>
+
+도착 도시:
+<input type="text" id="endCity"><br>
+
+<button onclick="calculate()">거리 계산</button>
+
+<h3 id="result"></h3>
+
+<script>
+    function calculate() {
+
+        fetch('/distance/calculate', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                startCity: document.getElementById('startCity').value,
+                endCity: document.getElementById('endCity').value
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('result').innerText =
+                    `두 도시 간 거리: ${data.distance.toFixed(2)} km`;
+            });
+    }
+</script>
+
+</body>
+</div>
+</html>

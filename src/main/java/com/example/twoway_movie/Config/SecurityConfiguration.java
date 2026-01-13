@@ -55,8 +55,9 @@ public class SecurityConfiguration {
                 //하기 위해 부트는 csrf토큰을 사용함!!..입력시 이부분을 추가해야 됨
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/member_inputgo",
+                        .requestMatchers("/", "/member_inputgo","/hiwayinput","/calculate",
                                 "/memberInputSave", "/login","/scoresave",
+                                "/citymove",
                                 "/image/**").permitAll()
              //관리자 전용페이지
                                 .requestMatchers("/admin/**").hasRole("ADMIN")

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}">
+
+<head>
+  <meta charset="UTF-8">
+  <title>계산 결과</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <h2>통행료 계산 결과</h2>
+  <p>이동 거리: <span th:text="${distance}"></span> km</p>
+  <p>총 통행료: <b><span th:text="${fee}"></span> 원</b></p>
+  <a th:href="@{/}">다시 계산</a>
+
+</div>
+</body>
+</html>

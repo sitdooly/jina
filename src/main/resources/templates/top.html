@@ -41,6 +41,22 @@
           <li><a href="/board_outgo">문의답변확인</a></li>
         </ul>
       </li>
+      <!--고속도로요금계산하기-->
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">고속도로통행요금 <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="/hiwayinput">출발IC:도착IC</a></li>
+
+        </ul>
+      </li>
+      <!--출발도시&도착도시로 이동거리구하기 -->
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">도시간이동거리 <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="/citymove">도시간이동거리</a></li>
+          <li><a href="/citymovemap">도시간지도</a></li>
+
+        </ul>
+      </li>
+
 
       <!--오시는 길-->
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="/map_go">오시는 길 <span class="caret"></span></a>
@@ -56,6 +72,14 @@
 
     </ul>
 
+    <!-- 관리자 모드
+    <li class="dropdown" sec:authorize="hasRole('ADMIN')">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        관리자 모드 <span class="caret"></span>
+      </a>
+
+    </li>
+    -->
     <!--로그인 / 회원가입-->
     <ul class="nav na vbar-nav navbar-right" style="display: flex;">
 

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{layouts/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>카카오 지도 거리 시각화</title>
+
+    <!-- 카카오 지도 SDK -->
+    <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=c975d0ed07f1daa245182b32385200e1&libraries=services"></script>
+
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        #map { width: 80%; height: 600px; margin-top: 20px; }
+        input, button { padding: 8px; margin: 5px; }
+    </style>
+</head>
+<div layout:fragment="content">
+<body>
+
+<h2>도시 간 거리 지도 시각화</h2>
+
+출발 도시:
+<input type="text" id="startCity" placeholder="서울">
+
+도착 도시:
+<input type="text" id="endCity" placeholder="부산">
+
+<button onclick="drawRoute()">지도에 표시</button>
+
+<div id="distance"></div>
+<div id="map"></div>
+
+<script>
+    // ============================
+    // 4️⃣ 지도 초기화
+    // ============================
+    var map = new kakao.maps.Map(document.getElementById('map'), {
+        center: new kakao.maps.LatLng(36.5, 127.5),
+        level: 7
+    });
+
+    var geocoder = new kakao.maps.services.Geocoder();
+
+
+    // ============================
+    // 5️⃣ 도시 → 좌표 변환 함수
+    // ============================
+    function getCoords(city, callback) {
+        geocoder.addressSearch(city, function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                callback(new kakao.maps.LatLng(result[0].y, result[0].x));
+            } else {
+                alert(city + " 좌표를 찾을 수 없습니다.");
+            }
+        });
+    }
+
+
+    // ============================
+    // 6️⃣ 마커 / 선 / 거리 표시
+    // ============================
+    var markers = [];
+    var polyline = null;
+
+    function drawRoute() {
+
+        var start = document.getElementById('startCity').value;
+        var end = document.getElementById('endCity').value;
+
+        getCoords(start, function(startPos) {
+            getCoords(end, function(endPos) {
+
+                // 기존 마커 제거
+                markers.forEach(m => m.setMap(null));
+                if (polyline) polyline.setMap(null);
+
+                // 마커 생성
+                var startMarker = new kakao.maps.Marker({ position: startPos });
+                var endMarker = new kakao.maps.Marker({ position: endPos });
+
+                startMarker.setMap(map);
+                endMarker.setMap(map);
+                markers = [startMarker, endMarker];
+
+                // 선 연결
+                polyline = new kakao.maps.Polyline({
+                    path: [startPos, endPos],
+                    strokeWeight: 5,
+                    strokeColor: '#FF0000',
+                    strokeOpacity: 0.8
+                });
+                polyline.setMap(map);
+
+                // 지도 범위 조정
+                var bounds = new kakao.maps.LatLngBounds();
+                bounds.extend(startPos);
+                bounds.extend(endPos);
+                map.setBounds(bounds);
+
+                // 거리 계산
+                var distance = polyline.getLength() / 1000;
+                document.getElementById('distance').innerHTML =
+                    `<h3>두 도시 간 거리: ${distance.toFixed(2)} km</h3>`;
+            });
+        });
+    }
+</script>
+
+</body>
+</div>
+</html>
