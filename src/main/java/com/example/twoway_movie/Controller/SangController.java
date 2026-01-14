@@ -9,4 +9,10 @@ public class SangController {
     public String kk1(){
         return "kkk";
     }
+
+    @GetMapping("korea")
+    public String kk11(){
+
+        return"korea";
+    }
 }
