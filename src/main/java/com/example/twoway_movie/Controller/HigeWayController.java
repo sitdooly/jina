@@ -38,9 +38,4 @@ public class HigeWayController {
     public String kk3(){
         return "distance_map";
     }
-
-    @GetMapping("/parking")
-    public String parkingPage() {
-        return "parking";
-    }
 }
